@@ -12,7 +12,7 @@ export const studentsHook = recordHook("students", (record: FlatfileRecord) => {
     parsedPhoneNumber = phoneUtil.parseAndKeepRawInput(phoneNumber, 'US'); // Assume US for now
   } catch (e) {
     // Parser will throw an error if the number is wildly invalid, but not if it's just a little off
-    // Just log the error and continue; parsedPhoneNumber will remain undefined
+    record.addError("parentMobile", "Invalid phone number");
     console.error("Error parsing phone number", e.message);
   }
   //  isValidNumber() performs a more thorough validation, so let's use that
