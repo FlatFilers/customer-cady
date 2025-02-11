@@ -1,9 +1,27 @@
+/**
+ * Students Sheet Configuration
+ * 
+ * This sheet defines the structure for student records including:
+ * - Basic student information (name, ID, gender)
+ * - Contact details (email, mobile)
+ * - Academic information (grade, period, homeroom teacher)
+ * - Parent/Guardian information (up to 2 parents)
+ * - Address information
+ * 
+ * Required fields:
+ * - Student First Name
+ * - Student Last Name
+ * - Student ID (must be unique)
+ * - Full Name (auto-generated)
+ * - Homeroom Teacher
+ * - Grade
+ * - Period
+ * - Address 1
+ */
+
 import { Flatfile } from "@flatfile/api";
 
-/* This code snippet is defining a configuration object for a sheet named "Users" using the Flatfile
-API in TypeScript. The configuration includes various fields such as login, firstName, lastName,
-email, phone number, contract start and end dates, roles, legal entity name, department, culture,
-insurance number, manager login, and CSP. */
+
 export const studentsSheet: Flatfile.SheetConfig = {
   "name": "Students",
   "slug": "students",
