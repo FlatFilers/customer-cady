@@ -15,7 +15,7 @@
   },
   "include": [
     "test/test.txt",
-    "src/index.ts"
+    "src/flatfile/index.ts"
   ],
   "exclude": [
     "node_modules",
