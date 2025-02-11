@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["ES2021.String", "DOM", "ES2015"],
+    "module": "commonjs",
+    "outDir": "./dist",
+    "skipLibCheck": true
+  },
+  "include": [
+    "test/test.txt",
+    "src/index.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "jest.config.js",
+    "lib",
+    "cli-utils",
+    ".git"
+  ]
+}
