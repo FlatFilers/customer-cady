@@ -4,7 +4,7 @@ import { ExcelExtractor } from "@flatfile/plugin-xlsx-extractor";
 
 import workbook from "./blueprints/workbooks/workbook";
 import { studentsHook } from "./hooks/students.hook";
-
+import { extractStudentsAction } from "./actions/extract-students.action";
 
 export default function (listener: FlatfileListener) {
   // Globally installed plugins
@@ -21,4 +21,6 @@ export default function (listener: FlatfileListener) {
   });
 
   listener.use(studentsHook);
+
+  listener.use(extractStudentsAction);
 }
