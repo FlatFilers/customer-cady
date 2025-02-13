@@ -1,6 +1,9 @@
 import { jobHandler } from "@flatfile/plugin-job-handler";
 import api, { Flatfile } from "@flatfile/api";
 
+import { objectsToExcel } from "../../common/objects-to-excel";
+import { JobResponse } from "@flatfile/api/api";
+
 export const extractStudentsBlueprint: Flatfile.Action = {
   operation: "extract-students",
   mode: Flatfile.ActionMode.Background,
@@ -9,7 +12,7 @@ export const extractStudentsBlueprint: Flatfile.Action = {
 }
 
 export const extractStudentsAction = jobHandler(`*:${extractStudentsBlueprint.operation}`, async (event, tick) => {
-  const { workbookId, jobId } = event.context;
+  const { workbookId, jobId, environmentId, spaceId } = event.context;
   const WEBHOOK_URL = "https://webhook.site/c73f2ba6-bee3-407d-8f73-79b6e70e1c38";
   
   await api.jobs.ack(jobId, {
@@ -21,9 +24,9 @@ export const extractStudentsAction = jobHandler(`*:${extractStudentsBlueprint.op
   const studentsSheet = sheets.find((sheet) => sheet.slug === "students");
 
   if (studentsSheet) {
-    const records = await api.records.get(studentsSheet.id);
+    const { data: { records } } = await api.records.get(studentsSheet.id);
 
-    if (!records.data.records || records.data.records.length === 0) {
+    if (!records || records.length === 0) {
       await api.jobs.ack(jobId, {
         info: "No student records found",
         progress: 100,
@@ -31,72 +34,73 @@ export const extractStudentsAction = jobHandler(`*:${extractStudentsBlueprint.op
       return;
     }
 
-    // Define the order of fields as per template
-    const fieldOrder = [
-      "studentLastName",
-      "studentFirstName", 
-      "fullName",
-      "studentId",
-      "gender",
-      "studentEmail",
-      "studentMobile",
-      "homeroomTeacher",
-      "grade",
-      "period",
-      "parentFirstName",
-      "parentLastName",
-      "parentEmail",
-      "parentMobile",
-      "parent2FirstName",
-      "parent2LastName",
-      "parent2Email",
-      "parent2Mobile",
-      "address1",
-      "address2",
-      "city",
-      "state",
-      "zip",
-      "room"
-    ];
+    // Map template names to internal field keys, maintaining desired order
+    const fieldKeyMap = {
+      "Student Last Name": "studentLastName",
+      "Student First Name": "studentFirstName",
+      "Full Name": "fullName",
+      "Student ID": "studentId",
+      "Gender": "gender",
+      "Student Email": "studentEmail",
+      "Student Mobile": "studentMobile",
+      "Homeroom Teacher": "homeroomTeacher",
+      "English Teacher": "englishTeacher",
+      "PE Teacher": "peTeacher",
+      "Grade": "grade",
+      "Period": "period",
+      "Parent First Name": "parentFirstName",
+      "Parent Last Name": "parentLastName",
+      "Parent Email": "parentEmail",
+      "Parent Mobile": "parentMobile",
+      "Parent 2 First Name": "parent2FirstName",
+      "Parent 2 Last Name": "parent2LastName",
+      "Parent 2 Email": "parent2Email",
+      "Parent 2 Mobile": "parent2Mobile",
+      "Address1": "address1",
+      "Address2": "address2",
+      "City": "city",
+      "State": "state",
+      "Zip": "zip",
+      "Room": "room"
+    };
 
     // Transform records to ordered format
-    const formattedRecords = records.data.records.map((record) => {
+    const formattedRecords = records.map((record) => {
       const orderedValues = {};
-      fieldOrder.forEach(field => {
-        orderedValues[field] = record.values[field].value;
+      Object.keys(fieldKeyMap).forEach(templateField => {
+        const key = fieldKeyMap[templateField];
+        orderedValues[templateField] = key && record.values[key] 
+          ? record.values[key].value 
+          : "";
       });
       return orderedValues;
     });
 
+    const tickCallback = async (progress: number, message: string): Promise<JobResponse> => {
+      return await tick(Math.min(progress + 25, 100), message);
+    } 
+    await tick(25, "Starting Excel export");
     try {
-      const response = await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          records: formattedRecords,
-          totalRecords: formattedRecords.length,
-          workbookId
-        })
-      });
+      const fileId = await objectsToExcel(formattedRecords, spaceId, environmentId, 'Students', tickCallback);
+      console.log("File ID: ", fileId);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      return {
+        outcome: {
+          heading: 'Success!',
+          message:
+            'Data was successfully written to Excel file and uploaded. The download should start automatically.',
+          next: {
+            type: 'files',
+            files: [{ fileId }],
+          },
+        },
       }
 
-      await api.jobs.ack(jobId, {
-        info: `Successfully sent ${formattedRecords.length} records to webhook`,
-        progress: 100,
-      });
     } catch (error) {
-      await api.jobs.fail(jobId, {
-        info: `Failed to send records to webhook: ${error.message}`
-      });
+      console.error(error);
       throw error;
     }
-    
-    return;
+
   } else {
     throw new Error("Students sheet not found");
   }
