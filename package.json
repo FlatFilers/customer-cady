@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "flatfile develop src/flatfile/index.ts",
-    "deploy": "flatfile deploy src/flatfile/index.ts"
+    "dev": "sh scripts/develop.sh",
+    "deploy": "sh scripts/deploy.sh"
   },
   "keywords": [],
   "author": "",

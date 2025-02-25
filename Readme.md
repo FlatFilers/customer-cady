@@ -1,12 +1,16 @@
 # Usage
 
 ## Initialization
-1. Copy `.env.example` to `.env`
-2. Populate `.env` with your Environment ID and Secret Key
-3. `npm install`
+
+1. Copy `.env.example` to `.env.{environment}`
+2. Populate `.env.{environment}` file with your Environment ID and Secret Key
+3. Repeat 1 and 2 for every environment present in your system
+4. `npm install`
 
 ## Local Development
-`npm run dev`
+
+`npm run dev {environment}`
 
 ## Deployment
-`npm run deploy`
+
+`npm run deploy {environment}`
