@@ -1,3 +1,6 @@
+import { Flatfile } from "@flatfile/api";
+import { mergeParentsBlueprint } from "../../actions/merge-parents.action";
+
 /**
  * Students Sheet Configuration
  * 
@@ -19,13 +22,12 @@
  * - Address 1
  */
 
-import { Flatfile } from "@flatfile/api";
-
 
 export const studentsSheet: Flatfile.SheetConfig = {
   "name": "Students",
   "slug": "students",
   "allowAdditionalFields": true,
+  "actions": [mergeParentsBlueprint],
   "fields": [
     {
       "key": "studentLastName",
