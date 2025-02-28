@@ -16,9 +16,7 @@ import { mergeParentsBlueprint } from "../../actions/merge-parents.action";
  * - Student Last Name
  * - Student ID (must be unique)
  * - Full Name (auto-generated)
- * - Homeroom Teacher
  * - Grade
- * - Period
  * - Address 1
  */
 
@@ -109,9 +107,6 @@ export const studentsSheet: Flatfile.SheetConfig = {
       "type": "string",
       "label": "Homeroom Teacher",
       "constraints": [
-        {
-          "type": "required"
-        }
       ]
     },
     {
@@ -129,9 +124,7 @@ export const studentsSheet: Flatfile.SheetConfig = {
       "type": "string",
       "label": "Period",
       "constraints": [
-        {
-          "type": "required"
-        }
+
       ]
     },
     {
