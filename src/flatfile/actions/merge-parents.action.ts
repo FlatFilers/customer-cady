@@ -90,7 +90,39 @@ export const mergeParentsAction = jobHandler(`*:${mergeParentsBlueprint.operatio
     progress: 50,
   });
 
-  await api.records.update(sheetId, Array.from(recordsToUpdate));
-  await api.records.delete(sheetId, { ids: Array.from(recordIdsToDelete) });
+  // Update records
+  if (recordsToUpdate.size > 0) {
+    await api.records.update(sheetId, Array.from(recordsToUpdate));
+  }
   
+  console.log("Deleting records");
+
+  // Delete records in chunks of 100
+  const recordIdsToDeleteArray = Array.from(recordIdsToDelete);
+  const chunkSize = 100;
+  const deletePromises = [];
+
+  const chunks = Math.ceil(recordIdsToDelete.size / chunkSize);
+  console.log(`Deleting ${chunks} chunks of ${chunkSize} records`);
+  const chunkProgress = Math.floor(45 / chunks);
+  let progress = 50;
+
+  for (let i = 0; i < recordIdsToDeleteArray.length; i += chunkSize) {
+    const chunk = recordIdsToDeleteArray.slice(i, i + chunkSize);
+    deletePromises.push(api.records.delete(sheetId, { ids: chunk }).then(() => {
+      progress += chunkProgress;
+      console.log(`Deleted ${i + chunk.length} of ${recordIdsToDelete.size} records, progress: ${progress}%`);
+      return api.jobs.ack(jobId, {
+        info: `Deleted ${i + chunk.length} of ${recordIdsToDelete.size} records`,
+        progress: progress,
+      });
+    }));
+  }
+  
+  await Promise.all(deletePromises);
+  
+  await api.jobs.ack(jobId, {
+    info: `Successfully updated ${recordsToUpdate.size} records and deleted ${recordIdsToDelete.size} records`,
+    progress: 100,
+  });
 });
