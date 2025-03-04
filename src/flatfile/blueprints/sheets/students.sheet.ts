@@ -38,13 +38,6 @@ export const studentsSheet: Flatfile.SheetConfig = {
       ]
     },
     {
-      "key": "studentMiddleName",
-      "type": "string",
-      "label": "Student Middle Name",
-      "constraints": [
-      ]
-    },
-    {
       "key": "studentFirstName",
       "type": "string",
       "label": "Student First Name",
@@ -106,6 +99,20 @@ export const studentsSheet: Flatfile.SheetConfig = {
       "key": "homeroomTeacher",
       "type": "string",
       "label": "Homeroom Teacher",
+      "constraints": [
+      ]
+    },
+    {
+      "key": "englishTeacher",
+      "type": "string",
+      "label": "English Teacher",
+      "constraints": [
+      ]
+    },
+    {
+      "key": "peTeacher",
+      "type": "string",
+      "label": "PE Teacher",
       "constraints": [
       ]
     },
