@@ -13,7 +13,6 @@ export const extractStudentsBlueprint: Flatfile.Action = {
 
 export const extractStudentsAction = jobHandler(`*:${extractStudentsBlueprint.operation}`, async (event, tick) => {
   const { workbookId, jobId, environmentId, spaceId } = event.context;
-  const WEBHOOK_URL = "https://webhook.site/c73f2ba6-bee3-407d-8f73-79b6e70e1c38";
   
   await api.jobs.ack(jobId, {
     info: "Student records export started",
