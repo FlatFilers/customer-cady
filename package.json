@@ -59,7 +59,7 @@
     "libphonenumber-js": "^1.11.18",
     "luxon": "^3.5.0",
     "modern-async": "^2.0.0",
-    "mssql": "^10.0.1",
+    "mssql": "^11.0.1",
     "mysql2": "^3.9.2",
     "nodemon": "^3.1.9",
     "numeral": "^2.0.6",
