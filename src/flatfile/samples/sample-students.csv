@@ -1,14 +1,2 @@
-Student Last Name,Student Middle Name,Student First Name,Student ID,Gender,Student Email,Student Mobile,Homeroom Teacher,Grade,Period,Parent First Name,Parent Last Name,Parent Email,Parent Mobile,Parent 2 First Name,Parent 2 Last Name,Parent 2 Email,Parent 2 Mobile,Address 1,Address 2,City,State,Zip,Room
-Smith,James,John,STU001,Male,john.smith@school.edu,312-555-0101,Ms. Johnson,9,1,Mary,Smith,mary.smith@email.com,312-555-0102,Robert,Smith,robert.smith@email.com,312-555-0103,123 Main Street,Apt 4B,Springfield,IL,62701,101
-Garcia,Marie,Sofia,STU002,Female,sofia.garcia@school.edu,312-555-0201,Mr. Williams,9,2,Ana,Garcia,ana.garcia@email.com,312-555-0202,,,,,456 Oak Avenue,,Springfield,IL,62701,102
-Brown,,Michael,STU003,Male,michael.brown@school.edu,312-555-0301,Ms. Johnson,9,1,Jennifer,Brown,jennifer.brown@email.com,312-555-0302,David,Brown,david.brown@email.com,312-555-0303,789 Elm Street,,Springfield,IL,62701,101
-Wilson,Lee,Emma,STU004,Female,emma.wilson@school.edu,312-555-0401,Mr. Williams,9,2,Sarah,Wilson,sarah.wilson@email.com,312-555-0402,,,,,321 Pine Road,Suite 100,Springfield,IL,62701,102
-Taylor,,Daniel,STU005,Male,daniel.taylor@school.edu,312-555-0501,Ms. Anderson,9,3,Patricia,Taylor,patricia.taylor@email.com,312-555-0502,James,Taylor,james.taylor@email.com,312-555-0503,567 Maple Drive,,Springfield,IL,62701,103
-Johnson,,Emily,STU006,Female,emily.johnson@school.edu,312-555-0601,Ms. Anderson,9,3,Michael,Johnson,michael.johnson@email.com,312-555-0602,,,,,842 Cedar Lane,,Springfield,IL,62701,103
-Johnson,,Emily,STU006,Female,isabella.martinez@school.edu,312-555-0701,Ms. Anderson,9,3,Carmen,Johnson,carmen.martinez.johnson@email.com,312-555-0702,,,,,159 Birch Street,,Springfield,IL,62701,103
-Lee,Min,David,STU008,Male,david.lee@school.edu,312-555-1001,Ms. Johnson,9,1,Susan,Lee,susan.lee@email.com,312-555-1002,,,,,444 Cherry Lane,,Springfield,IL,62701,101
-Lee,Min,David,STU008,Male,david.lee@school.edu,312-555-1001,Ms. Johnson,9,1,Susan,Lee,susan.lee@email.com,312-555-1002,,,,,444 Cherry Lane,,Springfield,IL,62701,101 
-Lee,Min,David,STU008,Male,david.lee@school.edu,312-555-1001,Ms. Johnson,9,1,Susan,Lee,susan.lee@email.com,312-555-1002,,,,,444 Cherry Lane,,Springfield,IL,62701,101 
-Anderson,,Thomas,STU007,Male,thomas.anderson@school.edu,312-555-0801,Mr. Williams,9,2,Linda,Anderson,linda.anderson@email.com,312-555-0802,,,,,924 Willow Way,,Springfield,IL,62701,102
-Anderson,,Thomas,STU007,Male,thomas.anderson@school.edu,312-555-0901,Mr. Williams,9,2,Karen,Smith,Karen.Smith@email.com,312-555-0902,,,,,735 Oak Street,,Springfield,IL,62701,102
-Anderson,,Thomas,STU007,Male,thomas.anderson@school.edu,312-555-0901,Mr. Williams,9,2,Jackson,Smith,Jackson.Smith@email.com,312-555-0902,,,,,735 Oak Street,,Springfield,IL,62701,102
+Student Last Name,Student Middle Name,Student First Name,Student ID,Gender,Student Email,Student Mobile,Homeroom Teacher,Grade,Period,Parent First Name,Parent Last Name,Parent Email,Parent Mobile,Parent 2 First Name,Parent 2 Last Name,Parent 2 Email,Parent 2 Mobile,Address,Room
+Smith,James,John,STU001,Male,john.smith@school.edu,312-555-0101,Ms. Johnson,9,1,Mary,Smith,mary.smith@email.com,312-555-0102,Robert,Smith,robert.smith@email.com,312-555-0103,"123 Main Street,Apt 4B,Springfield,IL  62701",101
