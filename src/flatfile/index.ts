@@ -7,7 +7,7 @@ import { studentsHook } from "./hooks/students.hook";
 import { extractStudentsAction } from "./actions/extract-students.action";
 import { mergeParentsAction } from "./actions/merge-parents.action";
 import { addEphemeralWorkbookActions } from "./jobs/ephemeral-workbooks.jobs";
-import { populateStudentIdsAction } from "./actions/populate-missing-fields.action";
+import { populateMissingFieldsAction } from "./actions/populate-missing-fields.action";
 export default function (listener: FlatfileListener) {
   // Enable the extraction of Excel files
   listener.use(ExcelExtractor());
@@ -28,5 +28,5 @@ export default function (listener: FlatfileListener) {
   // enable the Action Job Handlers
   listener.use(extractStudentsAction);
   listener.use(mergeParentsAction);
-  listener.use(populateStudentIdsAction);
+  listener.use(populateMissingFieldsAction);
 }

@@ -1,6 +1,6 @@
 import FlatfileListener, { Listener } from "@flatfile/listener";
 import api, { Flatfile } from "@flatfile/api";
-import { createPopulateStudentIdsBlueprint } from "../actions/populate-missing-fields.action";
+import { createPopulateMissingFieldsBlueprint } from "../actions/populate-missing-fields.action";
 import { listenerCount } from "process";
 
 export const addEphemeralWorkbookActions = (listener: FlatfileListener) => {
@@ -32,7 +32,7 @@ export const addEphemeralWorkbookActions = (listener: FlatfileListener) => {
         return;
       }
 
-      api.actions.create({spaceId: event.context.spaceId, body: createPopulateStudentIdsBlueprint(workbook.id)});
+      api.actions.create({spaceId: event.context.spaceId, body: createPopulateMissingFieldsBlueprint(workbook.id)});
 
     } catch (error) {
       console.error("Error in post-extraction hook:", error);
