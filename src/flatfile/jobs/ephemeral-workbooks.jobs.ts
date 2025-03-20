@@ -11,7 +11,6 @@ export const addEphemeralWorkbookActions = (listener: FlatfileListener) => {
     }
 
     try {
-          console.log('>>>>> context', event.context)
 
       // Get the file and workbook
       const { context: { fileId } } = event;

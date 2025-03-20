@@ -8,6 +8,7 @@ import { extractStudentsAction } from "./actions/extract-students.action";
 import { mergeParentsAction } from "./actions/merge-parents.action";
 import { addEphemeralWorkbookActions } from "./jobs/ephemeral-workbooks.jobs";
 import { populateMissingFieldsAction } from "./actions/populate-missing-fields.action";
+
 export default function (listener: FlatfileListener) {
   // Enable the extraction of Excel files
   listener.use(ExcelExtractor());
@@ -16,6 +17,23 @@ export default function (listener: FlatfileListener) {
   listener.use(
     configureSpace({
       workbooks: [workbook],
+      space: {
+        metadata: {
+          theme: {
+            root: {
+              primaryColor: "#bb4a92",
+            },
+            sidebar: {
+              logo: "https://asset.brandfetch.io/idxgCT4I1G/idMbiY5Rm1.png",
+              backgroundColor: "#ffffff",
+              focusTextColor: "#ffffff",
+              focusBgColor: "#bb4a92",
+              titleColor: "#000000",
+              textColor: "#000000"
+            },
+          }
+        }
+      }
     }),
   );
 
