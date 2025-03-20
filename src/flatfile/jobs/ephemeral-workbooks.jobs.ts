@@ -5,8 +5,10 @@ import { listenerCount } from "process";
 
 export const addEphemeralWorkbookActions = (listener: FlatfileListener) => {
   listener.on("job:completed", {}, async (event) => {
+    console.log("Job completed", event.payload.operation)
     // Only process extraction jobs
     if (!event.payload.operation?.startsWith("extract")) {
+      console.log("Not an extract job", event.payload.operation)
       return;
     }
 
@@ -31,10 +33,12 @@ export const addEphemeralWorkbookActions = (listener: FlatfileListener) => {
         return;
       }
 
-      api.actions.create({spaceId: event.context.spaceId, body: createPopulateMissingFieldsBlueprint(workbook.id)});
+      console.log("Creating populate missing fields action", workbook.id)
+      await api.actions.create({spaceId: event.context.spaceId, body: createPopulateMissingFieldsBlueprint(workbook.id)});
 
     } catch (error) {
       console.error("Error in post-extraction hook:", error);
+      throw error;
     }
   });
 

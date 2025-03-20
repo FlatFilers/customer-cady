@@ -1,8 +1,6 @@
 import { jobHandler } from "@flatfile/plugin-job-handler";
 import api, { Flatfile } from "@flatfile/api";
 
-const HEADER_ROW_INDEX = 1;
-
 // Define the basic action configuration that will appear in the Flatfile UI
 const barebonesBlueprint: Flatfile.Action = {
   operation: "populate-missing-fields",                          // Unique identifier for this action
@@ -21,12 +19,14 @@ const barebonesBlueprint: Flatfile.Action = {
  */
 export const createPopulateMissingFieldsBlueprint = (workbookId: string): Flatfile.ApiActionConfig => {
   if (!workbookId?.trim()) {
+    console.error('Invalid workbook ID provided');
     throw new Error('Invalid workbook ID');
   }
-  return {
+  const config = {
     targetId: workbookId,
     ...barebonesBlueprint,
   };
+  return config;
 };
 
 /**
@@ -43,6 +43,7 @@ export const populateMissingFieldsAction = jobHandler(
       
       // Fetch all records from the current sheet
       const { data: { records }} = await api.records.get(sheetId);
+      
       if (!records?.length) {
         await tick(100,"No records found to process");
         return;
@@ -53,6 +54,7 @@ export const populateMissingFieldsAction = jobHandler(
       const { params: { columnKey } } = data.subject as Flatfile.JobSubject.Collection;
 
       if (!columnKey) {
+        console.error('No column specified for processing');
         throw new Error("No column specified for processing");
       }
 
@@ -60,8 +62,8 @@ export const populateMissingFieldsAction = jobHandler(
       let previousValue = undefined;
       let updatedCount = 0;
 
-      // Iterate through records (starting from index 1 to skip header row)
-      for (let i = HEADER_ROW_INDEX; i < records.length; i++) {
+      // Iterate through records
+      for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const { values } = record;
 
@@ -96,6 +98,7 @@ export const populateMissingFieldsAction = jobHandler(
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error('Error occurred:', errorMessage);
       await tick(100, `Error: ${errorMessage}`);
       throw error;
     }
