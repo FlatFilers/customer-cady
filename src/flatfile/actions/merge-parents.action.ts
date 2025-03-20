@@ -176,18 +176,27 @@ export const mergeParentsAction = jobHandler(`*:${mergeParentsBlueprint.operatio
       const masterParentTwo = ParentInfo.fromRecord(masterRecord, 'parent2');
 
       // Process remaining records to build complete parent information
-      let parentInfoUpdated = false;
+      let parentInfoUpdated: boolean = false; // storing this as its own bool to avoid future issues with the order of operations in using masterRecordUpdated
       for (const secondaryRecord of recordsForStudentId.slice(1)) {
         const secondaryParentOne = ParentInfo.fromRecord(secondaryRecord, 'parent');
         const secondaryParentTwo = ParentInfo.fromRecord(secondaryRecord, 'parent2');
 
-        // Attempt to update parent information in order of priority
+        // Attempt to use secondaryParentOne to hydrate parent information in order of priority
+        // 1. Full updates for masterParentOne against secondaryParentOne
+        // 2. Full updates for masterParentTwo against secondaryParentOne
+        // 3. Partial updates for masterParentOne against secondaryParentOne
+        // 4. Partial updates for masterParentTwo against secondaryParentOne
         parentInfoUpdated = masterParentOne.update(secondaryParentOne) || 
                             masterParentTwo.update(secondaryParentOne) || 
                             masterParentOne.updateEmptyFields(secondaryParentOne) ||
                             masterParentTwo.updateEmptyFields(secondaryParentOne) ||
                             parentInfoUpdated;
 
+        // Attempt to use secondaryParentTwo to hydrate parent information in order of priority
+        // 1. Full updates for masterParentOne against secondaryParentTwo
+        // 2. Full updates for masterParentTwo against secondaryParentTwo
+        // 3. Partial updates for masterParentOne against secondaryParentTwo
+        // 4. Partial updates for masterParentTwo against secondaryParentTwo
         parentInfoUpdated = masterParentOne.update(secondaryParentTwo) || 
                             masterParentTwo.update(secondaryParentTwo) ||
                             masterParentOne.updateEmptyFields(secondaryParentTwo) ||
