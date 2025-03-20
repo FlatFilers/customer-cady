@@ -172,31 +172,33 @@ export const mergeParentsAction = jobHandler(`*:${mergeParentsBlueprint.operatio
       let masterRecordUpdated: boolean = false;
 
       // Initialize parent information from the master record
-      const parentOne = ParentInfo.fromRecord(masterRecord, 'parent');
-      const parentTwo = ParentInfo.fromRecord(masterRecord, 'parent2');
+      const masterParentOne = ParentInfo.fromRecord(masterRecord, 'parent');
+      const masterParentTwo = ParentInfo.fromRecord(masterRecord, 'parent2');
 
       // Process remaining records to build complete parent information
       let parentInfoUpdated = false;
       for (const secondaryRecord of recordsForStudentId.slice(1)) {
-        const recordParentOne = ParentInfo.fromRecord(secondaryRecord, 'parent');
-        const recordParentTwo = ParentInfo.fromRecord(secondaryRecord, 'parent2');
+        const secondaryParentOne = ParentInfo.fromRecord(secondaryRecord, 'parent');
+        const secondaryParentTwo = ParentInfo.fromRecord(secondaryRecord, 'parent2');
 
         // Attempt to update parent information in order of priority
-        parentInfoUpdated = parentOne.update(recordParentOne) || 
-                            parentTwo.update(recordParentOne) || 
-                            parentOne.update(recordParentTwo) || 
-                            parentTwo.update(recordParentTwo) ||
-                            parentOne.updateEmptyFields(recordParentOne) ||
-                            parentTwo.updateEmptyFields(recordParentOne) ||
-                            parentOne.updateEmptyFields(recordParentTwo) ||
-                            parentTwo.updateEmptyFields(recordParentTwo) || 
+        parentInfoUpdated = masterParentOne.update(secondaryParentOne) || 
+                            masterParentTwo.update(secondaryParentOne) || 
+                            masterParentOne.updateEmptyFields(secondaryParentOne) ||
+                            masterParentTwo.updateEmptyFields(secondaryParentOne) ||
+                            parentInfoUpdated;
+
+        parentInfoUpdated = masterParentOne.update(secondaryParentTwo) || 
+                            masterParentTwo.update(secondaryParentTwo) ||
+                            masterParentOne.updateEmptyFields(secondaryParentTwo) ||
+                            masterParentTwo.updateEmptyFields(secondaryParentTwo) || 
                             parentInfoUpdated;
       }
 
       // Update master record if parent information was modified
       if (parentInfoUpdated) {
-        parentOne.updateRecord(masterRecord, 'parent');
-        parentTwo.updateRecord(masterRecord, 'parent2');
+        masterParentOne.updateRecord(masterRecord, 'parent');
+        masterParentTwo.updateRecord(masterRecord, 'parent2');
         masterRecordUpdated = true;
       }
 
